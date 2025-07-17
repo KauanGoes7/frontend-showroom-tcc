@@ -6,11 +6,10 @@
 /* Definição das variáveis CSS (cores e fontes) */
 :root {
   --background-dark: rgb(14, 22, 46); /* Cor de fundo principal da página (azul bem escuro) */
-  --header-bg: rgb(0, 0, 0); /* Variável para a cor preta do cabeçalho */
-  --primary-blue: #007bff;
   --accent-cyan: #00BCD4; /* Ciano para botões e detalhes */
   --text-light: #ffffff; /* Cor de texto padrão (branco) */
   --text-muted: #cccccc; /* Cor de texto mais suave */
+  --selected-green: #4CAF50; /* Verde para seleção */
 
   --font-heading: 'Playfair Display', serif; /* Nova fonte para títulos e frases de efeito */
   --font-body: 'Poppins', sans-serif;       /* Fonte para o corpo do texto e botões */
@@ -50,45 +49,79 @@ button {
   color: inherit; /* Cor do texto herda do pai */
 }
 
-/* Estilos específicos para o Cabeçalho (Header) */
-.header {
+/* Estilos do cabeçalho da Home Page */
+.home-header {
   width: 100%;
-  padding: 1.5rem 2rem; /* Espaçamento interno do cabeçalho */
+  padding: 1.5rem 2rem;
   display: flex;
-  justify-content: space-between; /* Alinha itens nas extremidades (logo esq, link dir) */
-  align-items: center; /* Centraliza itens verticalmente */
-  background-color: var(--header-bg); /* O cabeçalho agora é preto */
-  position: absolute; /* Posição absoluta para fixar no topo */
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(0, 0, 0); /* Cabeçalho preto na home */
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 1000; /* Garante que o cabeçalho fique por cima de outros elementos */
-  box-sizing: border-box; /* Inclui padding e border no cálculo da largura/altura */
+  z-index: 1000;
+  box-sizing: border-box;
 }
 
-.header .logo-pequeno-container {
+.home-header .logo-pequeno-container {
     /* Container para a logo pequena, útil para posicionamento ou padding se necessário */
 }
 
-.header .nav-links {
+.home-header .nav-links {
   display: flex;
-  justify-content: flex-end; /* Empurra o link 'APRESENTAÇÃO' para a direita */
-  flex-grow: 1; /* Permite que ocupe o espaço restante para empurrar o link */
+  justify-content: flex-end;
+  flex-grow: 1;
 }
 
-.header .nav-links .nav-link-item {
-  font-size: 1rem; /* Tamanho da fonte do link (diminuído) */
-  font-weight: 700; /* Negrito */
-  color: var(--text-light); /* Cor do texto do link (branco) */
-  text-transform: uppercase; /* Texto em maiúsculas */
-  transition: color 0.3s ease, text-shadow 0.3s ease; /* Transição suave no hover */
-  letter-spacing: 0.05rem; /* Pequeno espaçamento entre as letras */
-  padding: 0.5rem 1rem; /* Padding para dar área de clique e visual */
-  border-radius: 5px; /* Bordas levemente arredondadas */
+.home-header .nav-links .nav-link-item {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  letter-spacing: 0.05rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
 }
 
-.header .nav-links .nav-link-item:hover {
-  color: var(--accent-cyan); /* Cor ao passar o mouse (ciano) */
-  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5); /* Sombra para o efeito de destaque */
+.home-header .nav-links .nav-link-item:hover {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5);
+}
+
+
+/* Estilos para o placeholder do header (para páginas internas com botão de voltar) */
+.header-placeholder {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-start; /* Alinha o botão de voltar à esquerda */
+  align-items: center;
+  position: absolute; /* Para que ele flutue no topo */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.header-placeholder .back-button-header {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.header-placeholder .back-button-header img {
+  filter: brightness(1) invert(0); /* Remove qualquer inversão inicial */
+  /* Aplicando a cor ciano diretamente com um filtro de sombra para simular a cor da imagem */
+  filter: drop-shadow(0px 0px 2px var(--accent-cyan)) drop-shadow(0px 0px 2px var(--accent-cyan));
+  transition: transform 0.2s ease;
+}
+
+.header-placeholder .back-button-header:hover img {
+  transform: translateX(-3px);
 }
 
 /* Estilos específicos para a Landing Page */
@@ -149,5 +182,536 @@ button {
   transform: translateY(-2px); /* Efeito de "subir" no hover */
 }
 
-/* Opcional: Se houver estilos de rodapé que foram removidos e não foram listados anteriormente,
-   certifique-se de que eles não estão mais aqui. */
+/* Estilos para a tela de Apresentação */
+.apresentacao-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-dark); /* Fundo azul escuro */
+  color: var(--text-light);
+}
+
+.apresentacao-main-content {
+  flex-grow: 1;
+  padding-top: 80px; /* Espaço para o cabeçalho fixo */
+  text-align: center;
+}
+
+.hero-apresentacao {
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.apresentacao-logo-wrapper {
+  margin-bottom: 2rem;
+}
+
+.apresentacao-title {
+  font-family: var(--font-heading);
+  font-size: 2.5rem; /* Ajuste o tamanho do título */
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.apresentacao-subtitle {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.apresentacao-section {
+  padding: 3rem 10%; /* Padding lateral para o texto não ir até as bordas */
+  text-align: center;
+  line-height: 1.6; /* Espaçamento entre linhas para melhor leitura */
+  max-width: 900px; /* Limita a largura do texto para leitura */
+  margin: 0 auto; /* Centraliza a seção */
+}
+
+.background-dark-alt {
+  background-color: rgba(0, 0, 0, 0.2); /* Um fundo ligeiramente mais escuro para quebrar as seções */
+}
+
+.section-heading {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-cyan); /* Cor de destaque para os títulos das seções */
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+}
+
+.apresentacao-section p {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+  color: var(--text-light);
+}
+
+.values-list {
+  list-style: none; /* Remove marcadores de lista padrão */
+  padding: 0;
+  margin-top: 1.5rem;
+}
+
+.values-list li {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-light);
+}
+
+.values-list li strong {
+    color: var(--accent-cyan); /* Destaca os títulos dos valores */
+}
+
+/* Placeholders visuais para futuras imagens/cards (apresentacao-image-placeholder) */
+.apresentacao-image-placeholder {
+    background-color: rgba(255, 255, 255, 0.05); /* Um cinza translúcido */
+    border: 1px dashed var(--text-muted);
+    margin: 2rem auto;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    width: 80%;
+    max-width: 600px;
+}
+
+.back-button-section {
+  padding-bottom: 3rem; /* Espaço na parte inferior para o botão */
+}
+
+.back-to-home-button {
+  background-color: var(--accent-cyan);
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.9rem 2.8rem;
+  border-radius: 50px;
+  margin-top: 2rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-home-button:hover {
+  background-color: #00A3B5;
+  transform: translateY(-2px);
+}
+
+/* Estilos para a tela de Serviços */
+.servicos-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-dark); /* Fundo azul escuro */
+  color: var(--text-light);
+}
+
+.servicos-main-content {
+  flex-grow: 1;
+  padding-top: 100px; /* Espaço para o cabeçalho fixo */
+  text-align: center;
+  padding-bottom: 4rem; /* Espaço para o botão Continua */
+}
+
+.servicos-hero {
+  padding: 2rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.servicos-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.user-highlight {
+  color: var(--accent-cyan); /* Cor de destaque para "USER!" */
+}
+
+.servicos-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.servicos-categories {
+  display: flex;
+  flex-wrap: wrap; /* Permite que os cards quebrem para a próxima linha em telas menores */
+  justify-content: center;
+  gap: 2rem; /* Espaçamento entre os cards */
+  padding: 0 1.5rem;
+}
+
+.service-card {
+  background-color: rgba(0, 0, 0, 0.2); /* Fundo escuro transparente para os cards */
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 320px; /* Largura máxima para cada card */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: left; /* Alinha o texto dentro do card à esquerda */
+}
+
+.service-icon-circle {
+  background-color: var(--accent-cyan); /* Círculo azul para o ícone */
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -60px; /* Move o círculo para cima, sobrepondo o card */
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border: 3px solid var(--background-dark); /* Borda para separar do fundo */
+}
+
+/* Padrão para deixar as imagens dos ícones brancas */
+.service-icon-circle img {
+  filter: brightness(0) invert(1); /* Deixa a imagem totalmente branca */
+}
+
+/* Estilo específico para o ícone de barba, sobrepondo o filtro geral */
+.service-icon-circle .beard-icon {
+  filter: brightness(1) invert(0); /* Remove a inversão para que a cor original da imagem possa ser vista */
+  filter: drop-shadow(0px 0px 1px var(--accent-cyan)) drop-shadow(0px 0px 1px var(--accent-cyan)) drop-shadow(0px 0px 1px var(--accent-cyan));
+  /* Este filtro de sombra simula uma colorização azul ciano */
+}
+
+
+.service-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  text-align: center; /* Centraliza o título do card */
+}
+
+.service-list {
+  list-style: none;
+  padding: 0;
+  width: 100%; /* Ocupa a largura total do card */
+}
+
+.service-list li {
+  display: flex;
+  align-items: flex-start; /* Alinha o rádio e o texto no topo */
+  margin-bottom: 0.8rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-light);
+  cursor: pointer; /* Indica que o item é clicável */
+}
+
+.radio-circle {
+  width: 18px;
+  height: 18px;
+  min-width: 18px; /* Garante que não diminua em telas pequenas */
+  border-radius: 50%;
+  border: 2px solid var(--text-muted); /* Borda cinza padrão */
+  margin-right: 10px;
+  flex-shrink: 0; /* Impede que o círculo diminua */
+  background-color: transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.radio-circle.selected {
+  background-color: #4CAF50; /* Verde para o selecionado */
+  border-color: #4CAF50;
+}
+
+.continue-button-section {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.continue-button {
+  background-color: var(--accent-cyan);
+  color: var(--text-light);
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 600;
+  padding: 0.9rem 3.5rem;
+  border-radius: 50px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.continue-button:hover:not(:disabled) { /* Apenas no hover se não estiver desabilitado */
+  background-color: #00A3B5;
+  transform: translateY(-2px);
+}
+
+.continue-button:disabled {
+  background-color: #004d5d; /* Cor mais escura para botão desabilitado */
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+
+/* Estilos para a tela de Barbeiros */
+.barbeiros-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
+.barbeiros-main-content {
+  flex-grow: 1;
+  padding-top: 100px; /* Espaço para o cabeçalho fixo */
+  text-align: center;
+  padding-bottom: 4rem; /* Espaço para o botão Continua */
+}
+
+.barbeiros-hero {
+  padding: 2rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.barbeiros-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.barbeiro-highlight {
+  color: var(--accent-cyan); /* Cor de destaque para "BARBEIRO!" */
+}
+
+.barbeiros-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.barbeiros-list {
+  display: flex;
+  flex-direction: column; /* Garante a disposição vertical */
+  align-items: center; /* Centraliza os cards horizontalmente */
+  gap: 1.5rem; /* Espaçamento entre os cards */
+  padding: 0 1.5rem;
+}
+
+.barber-card {
+  background-color: rgba(0, 0, 0, 0.2); /* Fundo escuro transparente para os cards */
+  border-radius: 12px;
+  width: 90%; /* Ocupa a largura da tela */
+  max-width: 400px; /* Largura máxima para o card */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: row; /* Ícone e nome lado a lado */
+  align-items: center;
+  padding: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid transparent; /* Borda padrão transparente */
+}
+
+.barber-card.selected-barber {
+  border-color: var(--selected-green); /* Borda verde quando selecionado */
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.6); /* Sombra verde */
+}
+
+.barber-icon-wrapper {
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Garante que a imagem se ajuste ao círculo */
+  margin-right: 1rem;
+  background-color: rgba(255, 255, 255, 0.1); /* Fundo sutil para a imagem */
+}
+
+.barber-icon-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Cobre a área do wrapper sem distorcer */
+  border-radius: 50%; /* Garante que a imagem dentro seja circular */
+}
+
+.barber-name {
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 0; /* Removido para alinhar melhor com o ícone */
+}
+
+/* Estilos para a tela de Agendamento */
+.agendamento-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background-dark);
+  color: var(--text-light);
+}
+
+.agendamento-main-content {
+  flex-grow: 1;
+  padding-top: 100px; /* Espaço para o cabeçalho fixo */
+  text-align: center;
+  padding-bottom: 4rem;
+}
+
+.agendamento-hero {
+  padding: 2rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.agendamento-title {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+}
+
+.agendamento-highlight {
+  color: var(--accent-cyan);
+}
+
+.agendamento-description {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.agendamento-selections {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem; /* Espaçamento entre os cartões de seleção */
+  padding: 0 1.5rem;
+}
+
+.selection-card {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  width: 90%;
+  max-width: 600px; /* Largura máxima para os cards de seleção */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  text-align: center;
+}
+
+.selection-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  margin-bottom: 1.5rem;
+}
+
+.date-selection-grid,
+.time-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Colunas flexíveis */
+  gap: 0.8rem; /* Espaçamento entre os botões */
+  justify-content: center;
+}
+
+.date-button,
+.time-button {
+  background-color: rgba(255, 255, 255, 0.08); /* Fundo claro para os botões */
+  color: var(--text-light);
+  padding: 0.8rem 0.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.date-button.selected,
+.time-button.selected {
+  background-color: var(--selected-green);
+  border-color: var(--selected-green);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+}
+
+.date-button:hover:not(.selected),
+.time-button:hover:not(.selected):not(:disabled) {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-1px);
+}
+
+.time-button:disabled {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.selection-tip {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 1rem;
+}
+
+.confirm-agendamento-section {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* Mantém os estilos do .continue-button do barbeiros para consistência */
+/* .continue-button já está definido acima com os estados :hover:not(:disabled) e :disabled */
+
+/* Media Queries para responsividade (ajustar conforme necessário) */
+@media (max-width: 768px) {
+  .agendamento-title {
+    font-size: 1.8rem;
+  }
+  .agendamento-description {
+    font-size: 1rem;
+  }
+  .selection-card {
+    padding: 1.5rem 1rem;
+  }
+  .date-selection-grid,
+  .time-selection-grid {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  }
+  .date-button,
+  .time-button {
+    font-size: 0.9rem;
+    padding: 0.6rem 0.3rem;
+  }
+}

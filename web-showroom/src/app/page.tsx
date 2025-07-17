@@ -1,8 +1,8 @@
 // src/app/page.tsx
-import Head from 'next/head'; // Para metadados da página
-import Image from 'next/image'; // Para otimizar o carregamento de imagens no Next.js
-import Header from '../components/Header'; // Importa o componente de cabeçalho
-import Link from 'next/link'; // Para o botão de navegação
+import Head from 'next/head';
+import Image from 'next/image';
+import Header from '../components/Header'; // O Header será reintroduzido aqui
+import Link from 'next/link';
 
 export default function HomePage() {
   return (
@@ -10,23 +10,21 @@ export default function HomePage() {
       <Head>
         <title>Barbearia Elite - Estilo e Tradição</title>
         <meta name="description" content="Agende seu corte, barba e tratamentos na Barbearia Elite. Estilo não se improvisa." />
-        <link rel="icon" href="/favicon.ico" /> {/* Ícone da aba do navegador */}
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header /> {/* Inclui o componente de cabeçalho */}
+      <Header /> {/* O Header que renderiza o cabeçalho da home */}
 
       <main className="main-content">
-        {/* A imagem de fundo e o overlay foram removidos. O fundo agora é definido pelo CSS global (body/html). */}
-
         <div className="hero-section">
           {/* Logo principal da barbearia (imagem) */}
           <div className="main-logo">
             <Image
-              src="/image 4-Photoroom 2.png" // <--- CAMINHO ATUALIZADO para sua logo principal
+              src="/image 4-Photoroom 2.png" // Caminho para sua logo principal
               alt="Agenda Corte Barbearia Logo"
-              width={300} // Largura da imagem
-              height={300} // Altura da imagem
-              priority // Prioriza o carregamento desta imagem (importante para elementos acima da dobra)
+              width={300}
+              height={300}
+              priority
             />
           </div>
 
@@ -40,8 +38,6 @@ export default function HomePage() {
           </Link>
         </div>
       </main>
-
-      {/* O rodapé inferior foi removido, conforme solicitado. */}
     </div>
   );
 }
