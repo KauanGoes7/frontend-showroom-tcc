@@ -1,26 +1,153 @@
-@import "tailwindcss";
+/* src/app/globals.css */
 
+/* Importação das fontes do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@400;700&family=Poppins:wght@400;600&display=swap');
+
+/* Definição das variáveis CSS (cores e fontes) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-dark: rgb(14, 22, 46); /* Cor de fundo principal da página (azul bem escuro) */
+  --header-bg: rgb(0, 0, 0); /* Variável para a cor preta do cabeçalho */
+  --primary-blue: #007bff;
+  --accent-cyan: #00BCD4; /* Ciano para botões e detalhes */
+  --text-light: #ffffff; /* Cor de texto padrão (branco) */
+  --text-muted: #cccccc; /* Cor de texto mais suave */
+
+  --font-heading: 'Playfair Display', serif; /* Nova fonte para títulos e frases de efeito */
+  --font-body: 'Poppins', sans-serif;       /* Fonte para o corpo do texto e botões */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Reset básico e estilos globais do body e html */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Garante que padding e border não aumentem o tamanho total */
+  font-family: var(--font-body); /* Body usa Poppins por padrão */
+  color: var(--text-light); /* Cor do texto padrão */
+  background-color: var(--background-dark); /* Fundo com a nova cor principal */
+  overflow-x: hidden; /* Evita rolagem horizontal indesejada */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Outros resets e estilos básicos para elementos comuns */
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+p {
+  margin: 0;
+  padding: 0;
 }
+
+a {
+  color: inherit; /* Links herdam a cor do pai */
+  text-decoration: none; /* Remove sublinhado padrão dos links */
+}
+
+button {
+  cursor: pointer; /* Muda o cursor para indicar que é clicável */
+  border: none; /* Remove borda padrão do botão */
+  background: none; /* Remove fundo padrão do botão */
+  color: inherit; /* Cor do texto herda do pai */
+}
+
+/* Estilos específicos para o Cabeçalho (Header) */
+.header {
+  width: 100%;
+  padding: 1.5rem 2rem; /* Espaçamento interno do cabeçalho */
+  display: flex;
+  justify-content: space-between; /* Alinha itens nas extremidades (logo esq, link dir) */
+  align-items: center; /* Centraliza itens verticalmente */
+  background-color: var(--header-bg); /* O cabeçalho agora é preto */
+  position: absolute; /* Posição absoluta para fixar no topo */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* Garante que o cabeçalho fique por cima de outros elementos */
+  box-sizing: border-box; /* Inclui padding e border no cálculo da largura/altura */
+}
+
+.header .logo-pequeno-container {
+    /* Container para a logo pequena, útil para posicionamento ou padding se necessário */
+}
+
+.header .nav-links {
+  display: flex;
+  justify-content: flex-end; /* Empurra o link 'APRESENTAÇÃO' para a direita */
+  flex-grow: 1; /* Permite que ocupe o espaço restante para empurrar o link */
+}
+
+.header .nav-links .nav-link-item {
+  font-size: 1rem; /* Tamanho da fonte do link (diminuído) */
+  font-weight: 700; /* Negrito */
+  color: var(--text-light); /* Cor do texto do link (branco) */
+  text-transform: uppercase; /* Texto em maiúsculas */
+  transition: color 0.3s ease, text-shadow 0.3s ease; /* Transição suave no hover */
+  letter-spacing: 0.05rem; /* Pequeno espaçamento entre as letras */
+  padding: 0.5rem 1rem; /* Padding para dar área de clique e visual */
+  border-radius: 5px; /* Bordas levemente arredondadas */
+}
+
+.header .nav-links .nav-link-item:hover {
+  color: var(--accent-cyan); /* Cor ao passar o mouse (ciano) */
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.5); /* Sombra para o efeito de destaque */
+}
+
+/* Estilos específicos para a Landing Page */
+.landing-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ocupa a altura total da viewport */
+  position: relative;
+}
+
+.main-content {
+  flex-grow: 1; /* Ocupa todo o espaço vertical disponível */
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+  position: relative;
+  text-align: center;
+  padding-top: 4rem; /* Diminuído para subir o conteúdo */
+}
+
+.hero-section {
+  z-index: 1; /* Garante que o conteúdo fique por cima de elementos de fundo (se houver) */
+  display: flex;
+  flex-direction: column; /* Organiza itens verticalmente */
+  align-items: center; /* Centraliza itens horizontalmente */
+  justify-content: center; /* Centraliza itens verticalmente */
+  max-width: 90%; /* Limita a largura do conteúdo para melhor leitura em telas largas */
+}
+
+.main-logo {
+  margin-bottom: 1.5rem; /* Espaço abaixo da logo principal (diminuído) */
+}
+
+.tagline {
+  font-family: var(--font-heading); /* Usa a nova fonte "Playfair Display" */
+  font-size: 1.5rem; /* Tamanho da fonte (diminuído) */
+  font-weight: 700; /* Mais negrito */
+  color: var(--text-light); /* Cor do texto (branco) */
+  margin-top: 0.8rem; /* Espaço acima da tagline (diminuído) */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6); /* Sombra para o texto */
+}
+
+.schedule-button {
+  background-color: var(--accent-cyan); /* Cor de fundo do botão (ciano) */
+  color: var(--text-light); /* Cor do texto do botão (branco) */
+  font-family: var(--font-body); /* Botão continua com Poppins para legibilidade */
+  font-size: 1.3rem; /* Tamanho da fonte (diminuído) */
+  font-weight: 600;
+  padding: 0.8rem 2.5rem; /* Espaçamento interno do botão (diminuído) */
+  border-radius: 50px; /* Deixa o botão bem arredondado (pílula) */
+  margin-top: 1.8rem; /* Espaço acima do botão (diminuído para subir o botão) */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Transições suaves no hover */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Sombra para profundidade */
+}
+
+.schedule-button:hover {
+  background-color: #00A3B5; /* Um tom ligeiramente mais escuro no hover */
+  transform: translateY(-2px); /* Efeito de "subir" no hover */
+}
+
+/* Opcional: Se houver estilos de rodapé que foram removidos e não foram listados anteriormente,
+   certifique-se de que eles não estão mais aqui. */
