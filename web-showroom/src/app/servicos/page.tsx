@@ -4,7 +4,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../../components/Header'; // O cabeçalho comum (agora com lógica condicional)
+// O cabeçalho comum (agora com lógica condicional)
 import { useState } from 'react'; // Importar useState
 
 export default function ServicosPage() {
@@ -41,7 +41,7 @@ export default function ServicosPage() {
         <meta name="description" content="Agende seus cortes de cabelo, barba e tratamentos na Agenda Corte." />
       </Head>
 
-      <Header /> {/* Inclui o cabeçalho (que renderiza o botão de voltar) */}
+      
 
       <main className="servicos-main-content">
         <section className="servicos-hero">
@@ -57,7 +57,7 @@ export default function ServicosPage() {
           <div className="service-card">
             <div className="service-icon-circle">
               <Image
-                src="/serviços/scissors 1.png" // Imagem para serviços de cabelo
+                src="/servicos/scissors 1.png" // Imagem para serviços de cabelo
                 alt="Ícone de Tesoura - Cabelo"
                 width={80}
                 height={80}
@@ -84,7 +84,7 @@ export default function ServicosPage() {
           <div className="service-card">
             <div className="service-icon-circle">
               <Image
-                src="/serviços/beard 1.png" // Imagem para serviços de barba
+                src="/servicos/beard 1.png" // Imagem para serviços de barba
                 alt="Ícone de Barba"
                 width={80}
                 height={80}
@@ -112,7 +112,7 @@ export default function ServicosPage() {
           <div className="service-card">
             <div className="service-icon-circle">
               <Image
-                src="/serviços/barbearia 1.png" // Imagem para serviços de barbearia geral / clássico
+                src="/servicos/barbearia 1.png" // Imagem para serviços de barbearia geral / clássico
                 alt="Ícone de Barbearia - Clássico"
                 width={80}
                 height={80}

@@ -4,7 +4,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../../components/Header'; // O cabeçalho comum (agora com lógica condicional)
+
 
 export default function ApresentacaoPage() {
   return (
@@ -14,7 +14,7 @@ export default function ApresentacaoPage() {
         <meta name="description" content="Conheça a história, filosofia e diferenciais da Barbearia Agenda Corte." />
       </Head>
 
-      <Header /> {/* Inclui o cabeçalho (que renderiza o botão de voltar) */}
+      
 
       <main className="apresentacao-main-content">
         <section className="hero-apresentacao">

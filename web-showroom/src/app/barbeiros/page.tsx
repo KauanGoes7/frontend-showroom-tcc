@@ -4,7 +4,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../../components/Header'; // O cabeçalho com o botão de voltar
+
 import { useState } from 'react'; // Para gerenciar o estado do barbeiro selecionado
 
 export default function BarbeirosPage() {
@@ -31,7 +31,7 @@ export default function BarbeirosPage() {
         <meta name="description" content="Escolha seu barbeiro preferido na Agenda Corte." />
       </Head>
 
-      <Header /> {/* Inclui o cabeçalho com o botão de voltar */}
+      
 
       <main className="barbeiros-main-content">
         <section className="barbeiros-hero">

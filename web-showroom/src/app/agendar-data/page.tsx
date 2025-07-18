@@ -4,7 +4,7 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '../../components/Header';
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
@@ -96,7 +96,7 @@ export default function AgendamentoPage() {
         <meta name="description" content="Selecione a data e horário para seu agendamento." />
       </Head>
 
-      <Header />
+      
 
       <main className="agendamento-main-content">
         <section className="agendamento-hero">

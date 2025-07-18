@@ -2,18 +2,25 @@
 'use client';
 
 import Head from 'next/head';
-import Image from 'next/image';
+import Image from 'next/image'; // Mantemos Image para o ícone do WhatsApp, que já estava no seu código original
 import Link from 'next/link';
 import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+interface AgendamentoConfirmado {
+  data: string;
+  horario: string;
+  barbeiro: string;
+  servico: string;
+}
+
 export default function ConfirmacaoPage() {
-  const [agendamentoData, setAgendamentoData] = useState({
-    data: '[Data do Agendamento]',
-    horario: '[Horário do Agendamento]',
-    barbeiro: '[Nome do Barbeiro]',
-    servico: '[Serviço Escolhido]',
+  const [agendamentoData, setAgendamentoData] = useState<AgendamentoConfirmado>({
+    data: '...',
+    horario: '...',
+    barbeiro: '...',
+    servico: '...',
   });
   const router = useRouter();
 
@@ -22,13 +29,17 @@ export default function ConfirmacaoPage() {
     if (storedData) {
       setAgendamentoData(JSON.parse(storedData));
     } else {
-      console.warn("Nenhum dado de agendamento encontrado no localStorage. Redirecionando para agendamento.");
+      console.warn("Nenhum dado de agendamento encontrado no localStorage. Redirecionando.");
       router.push('/agendar-data'); // Redireciona de volta se não houver dados
+      return; // Importante para parar a execução e evitar renderizar com dados vazios
     }
-  }, [router]); // Adicionado router como dependência para o useEffect
+  }, [router]);
 
   const handleNovoAgendamento = () => {
-    localStorage.removeItem('agendamentoConfirmado'); // Limpa os dados
+    // Limpa todos os dados relevantes do localStorage
+    localStorage.removeItem('agendamentoConfirmado');
+    localStorage.removeItem('selectedBarberId'); // Exemplo, se você tiver mais dados de seleção
+    localStorage.removeItem('selectedServiceId'); // Exemplo, se você tiver mais dados de seleção
     router.push('/'); // Volta para a Home Page
   };
 
@@ -39,77 +50,57 @@ export default function ConfirmacaoPage() {
         <meta name="description" content="Seu agendamento foi concluído com sucesso!" />
       </Head>
 
-      <Header />
+      <Header /> {/* O Header será o de páginas internas automaticamente */}
 
       <main className="confirmacao-main-content">
         <section className="confirmacao-hero">
-          <h1 className="confirmacao-title">AGENDAMENTO CONCLUÍDO <span className="confirmacao-highlight">COM SUCESSO!</span></h1>
-          <div className="whatsapp-reminder">
+          <h1 className="confirmacao-title">AGENDAMENTO CONCLUÍDO<br/><span className="highlight-text">COM SUCESSO!</span></h1>
+          <p className="confirmacao-whatsapp-reminder">
+            {/* Mantido o ícone do WhatsApp, pois já estava no seu código original e é uma imagem existente */}
             <Image
-              src="/icones/bell-whatsapp.png" // Ajuste este caminho se seu ícone for diferente
+              src="/icones/bell-whatsapp.png"
               alt="Lembrete WhatsApp"
-              width={24}
-              height={24}
+              width={20}
+              height={20}
+              priority
+              className="whatsapp-icon"
             />
-            <p>Você receberá um lembrete pelo WhatsApp um dia antes do seu atendimento.</p>
-          </div>
+            Você receberá um lembrete pelo WhatsApp um dia antes do seu atendimento.
+          </p>
         </section>
 
-        <section className="agendamento-details-card">
-          <div className="detail-item">
-            <Image
-              src="/icones/calendar.png"
-              alt="Data"
-              width={24}
-              height={24}
-            />
-            <span>Data</span>
-            <strong>{agendamentoData.data}</strong>
+        {/* Novo Card de Detalhes do Agendamento */}
+        <div className="confirmed-appointment-card-v2">
+          <div className="card-detail-item">
+            <span className="detail-card-icon-emoji">🗓️</span> {/* Ícone de calendário (emoji) */}
+            <span className="detail-card-label">Data</span>
+            <span className="detail-card-value">{agendamentoData.data}</span>
           </div>
 
-          <div className="detail-item">
-            <Image
-              src="/icones/clock.png"
-              alt="Horário"
-              width={24}
-              height={24}
-            />
-            <span>Horário</span>
-            <strong>{agendamentoData.horario}</strong>
+          <div className="card-detail-item">
+            <span className="detail-card-icon-emoji">⏰</span> {/* Ícone de relógio (emoji) */}
+            <span className="detail-card-label">Horário</span>
+            <span className="detail-card-value">{agendamentoData.horario}</span>
           </div>
 
-          <div className="detail-item">
-            <Image
-              src="/icones/barber-icon.png" // Ajuste este caminho se seu ícone for diferente
-              alt="Barbeiro"
-              width={24}
-              height={24}
-            />
-            <span>Barbeiro</span>
-            <strong>{agendamentoData.barbeiro}</strong>
+          <div className="card-detail-item">
+            <span className="detail-card-icon-emoji">👨‍🦱</span> {/* Ícone de pessoa (emoji) */}
+            <span className="detail-card-label">Barbeiro</span>
+            <span className="detail-card-value">{agendamentoData.barbeiro}</span>
           </div>
 
-          <div className="detail-item">
-            <Image
-              src="/icones/service-icon.png" // Ajuste este caminho se seu ícone for diferente
-              alt="Serviço"
-              width={24}
-              height={24}
-            />
-            <span>Serviço</span>
-            <strong>{agendamentoData.servico}</strong>
+          <div className="card-detail-item">
+            <span className="detail-card-icon-emoji">✂️</span> {/* Ícone de tesoura (emoji) */}
+            <span className="detail-card-label">Serviço</span>
+            <span className="detail-card-value">{agendamentoData.servico}</span>
           </div>
-        </section>
+        </div>
 
-        <section className="final-message-section">
-          <p>Muito obrigado pela confiança! Estamos ansiosos para te atender. ✂️</p>
-        </section>
-
-        <section className="new-agendamento-section">
-          <button
-            className="continue-button"
-            onClick={handleNovoAgendamento}
-          >
+        <section className="confirmation-actions">
+          <p className="final-message">
+            Muito obrigado pela confiança! Estamos ansiosos para te atender. 💈
+          </p>
+          <button className="new-appointment-button" onClick={handleNovoAgendamento}>
             Novo Agendamento
           </button>
         </section>
