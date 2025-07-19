@@ -4,15 +4,17 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+
+// Importar o componente Header (assumindo que ele está em src/components/Header.tsx)
+import Header from '../../components/Header'; // Adicionado para incluir o cabeçalho
 
 export default function AgendamentoPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
-  const [selectedBarberId, setSelectedBarberId] = useState<number | null>(null);
+  const [selectedServiceIds, setSelectedServiceIds] = useState<number[]>([]); // Para os serviços
+  const [selectedBarberId, setSelectedBarberId] = useState<number | null>(null); // Para o barbeiro
 
   const router = useRouter();
 
@@ -46,21 +48,30 @@ export default function AgendamentoPage() {
     203: 'O Minimalista Sofisticado',
   };
 
+  // Carrega os dados do localStorage ao montar o componente
   useEffect(() => {
-    const storedBarberId = localStorage.getItem('selectedBarberId');
-    const storedServiceId = localStorage.getItem('selectedServiceId');
+    if (typeof window !== 'undefined') { // Garante que roda apenas no lado do cliente
+      const storedBarberId = localStorage.getItem('selectedBarberId');
+      if (storedBarberId) {
+        setSelectedBarberId(parseInt(storedBarberId));
+      }
 
-    if (storedBarberId) {
-      setSelectedBarberId(parseInt(storedBarberId));
-    }
-    if (storedServiceId) {
-      setSelectedServiceId(parseInt(storedServiceId));
+      const storedServiceIds = localStorage.getItem('selectedServiceIds');
+      if (storedServiceIds) {
+        setSelectedServiceIds(JSON.parse(storedServiceIds));
+      }
+
+      // Opcional: Se quiser carregar data/hora se o usuário voltar para essa página
+      const storedDate = localStorage.getItem('selectedDate');
+      const storedTime = localStorage.getItem('selectedTime');
+      if (storedDate) setSelectedDate(storedDate);
+      if (storedTime) setSelectedTime(storedTime);
     }
   }, []);
 
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
-    setSelectedTime(null);
+    setSelectedTime(null); // Reseta o horário ao mudar a data
   };
 
   const handleTimeSelect = (time: string) => {
@@ -68,26 +79,41 @@ export default function AgendamentoPage() {
   };
 
   const handleConfirmAgendamento = () => {
-    if (selectedDate && selectedTime && selectedBarberId && selectedServiceId) {
-      const barberName = barbers.find(b => b.id === selectedBarberId)?.name || 'Barbeiro Desconhecido';
-      const serviceName = servicesMap[selectedServiceId] || 'Serviço Desconhecido';
-
-      const agendamento = {
-        data: new Date(selectedDate).toLocaleDateString('pt-BR'),
-        horario: selectedTime,
-        barbeiro: barberName,
-        servico: serviceName,
-      };
-
-      localStorage.setItem('agendamentoConfirmado', JSON.stringify(agendamento));
-
-      // Removendo o alert e redirecionando diretamente
-      router.push('/confirmacao-agendamento');
-    } else {
-      // Se faltar algum dado, pode-se manter um alert ou uma mensagem na tela
-      alert('Por favor, selecione uma data, um horário, um barbeiro e um serviço.');
+    if (!selectedDate || !selectedTime || selectedBarberId === null || selectedServiceIds.length === 0) {
+      alert('Por favor, selecione a data, o horário, o barbeiro e o serviço para confirmar.');
+      return;
     }
+
+    // Prepara os dados para salvar
+    const barberName = barbers.find(b => b.id === selectedBarberId)?.name || 'Barbeiro Desconhecido';
+    const selectedServiceNames = selectedServiceIds.map(id => servicesMap[id] || 'Serviço Desconhecido');
+
+    // Salva todos os dados no localStorage para a página de confirmação
+    localStorage.setItem('agendamentoData', JSON.stringify({
+      date: selectedDate,
+      time: selectedTime,
+      barberId: selectedBarberId,
+      barberName: barberName,
+      serviceIds: selectedServiceIds,
+      serviceNames: selectedServiceNames, // Salva os nomes para facilitar na confirmação
+    }));
+
+    router.push('/confirmacao-agendamento');
   };
+
+  // O botão 'Confirmar Agendamento' estará desabilitado se as seleções não estiverem completas.
+  const isConfirmButtonDisabled = !selectedDate || !selectedTime || selectedBarberId === null || selectedServiceIds.length === 0;
+
+  // Função auxiliar para formatar a data para exibição nos botões
+  const formatDateForButton = (dateString: string) => {
+    const date = new Date(dateString + 'T00:00:00'); // Adiciona T00:00:00 para evitar problemas de fuso horário
+    return date.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
+  };
+
+  // Obter o nome do barbeiro e serviço para exibição no resumo
+  const currentSelectedBarberName = barbers.find(b => b.id === selectedBarberId)?.name || 'Nenhum barbeiro selecionado';
+  const currentSelectedServiceNames = selectedServiceIds.map(id => servicesMap[id] || 'Serviço Desconhecido').join(', ');
+
 
   return (
     <div className="agendamento-container">
@@ -96,7 +122,7 @@ export default function AgendamentoPage() {
         <meta name="description" content="Selecione a data e horário para seu agendamento." />
       </Head>
 
-      
+      <Header /> {/* Inclui o cabeçalho */}
 
       <main className="agendamento-main-content">
         <section className="agendamento-hero">
@@ -105,6 +131,17 @@ export default function AgendamentoPage() {
             Escolha a data e o horário que melhor se encaixam na sua rotina.
           </p>
         </section>
+
+        {/* Card de Resumo da Seleção Atual (Barbeiro e Serviço) */}
+        {(selectedBarberId !== null || selectedServiceIds.length > 0) && (
+            <div className="selection-card summary-card">
+                <h2 className="selection-card-title">Resumo da Seleção</h2>
+                <div style={{display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1.5rem'}}>
+                    {selectedBarberId !== null && <p style={{color: 'var(--text-light)', fontSize: '1.1rem'}}>Barbeiro: <span style={{color: 'var(--accent-cyan)', fontWeight: 'bold'}}>{currentSelectedBarberName}</span></p>}
+                    {selectedServiceIds.length > 0 && <p style={{color: 'var(--text-light)', fontSize: '1.1rem'}}>Serviços: <span style={{color: 'var(--accent-cyan)', fontWeight: 'bold'}}>{currentSelectedServiceNames}</span></p>}
+                </div>
+            </div>
+        )}
 
         <section className="agendamento-selections">
           <div className="selection-card">
@@ -116,7 +153,7 @@ export default function AgendamentoPage() {
                   className={`date-button ${selectedDate === date ? 'selected' : ''}`}
                   onClick={() => handleDateSelect(date)}
                 >
-                  {new Date(date).toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' })}
+                  {formatDateForButton(date)}
                 </button>
               ))}
             </div>
@@ -146,7 +183,7 @@ export default function AgendamentoPage() {
           <button
             className="continue-button"
             onClick={handleConfirmAgendamento}
-            disabled={!selectedDate || !selectedTime}
+            disabled={isConfirmButtonDisabled}
           >
             Confirmar Agendamento
           </button>

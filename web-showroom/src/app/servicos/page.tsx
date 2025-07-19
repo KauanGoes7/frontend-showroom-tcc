@@ -4,13 +4,15 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-// O cabeçalho comum (agora com lógica condicional)
-import { useState } from 'react'; // Importar useState
+import { useState, useEffect } from 'react'; // <--- ADICIONE useEffect AQUI
+import { useRouter } from 'next/navigation'; // <--- ADICIONE useRouter AQUI
+
+// Importar o componente Header (assumindo que ele está em src/components/Header.tsx)
+import Header from '../../components/Header'; // <--- MANTENHA ESTA LINHA
 
 export default function ServicosPage() {
-  // Estado para controlar os serviços selecionados.
-  // Será um array de arrays, onde cada sub-array guarda os IDs dos serviços selecionados por categoria.
   const [selectedServices, setSelectedServices] = useState<number[][]>([[], [], []]);
+  const router = useRouter(); // <--- INICIALIZE O useRouter AQUI
 
   // Função para lidar com a seleção de um serviço
   const handleServiceSelect = (categoryIndex: number, serviceId: number) => {
@@ -34,6 +36,26 @@ export default function ServicosPage() {
     return selectedServices[categoryIndex].includes(serviceId);
   };
 
+  // <--- ADICIONE ESTA FUNÇÃO PARA LIDAR COM O BOTÃO CONTINUA
+  const handleContinue = () => {
+    // Flatten the array of arrays into a single array of selected service IDs
+    const allSelectedServiceIds = selectedServices.flat();
+    
+    // Check if at least one service is selected (you can refine this logic)
+    if (allSelectedServiceIds.length === 0) {
+      alert('Por favor, selecione pelo menos um serviço para continuar.');
+      return;
+    }
+
+    // Save the selected service IDs to localStorage
+    // Convertendo para string antes de salvar
+    localStorage.setItem('selectedServiceIds', JSON.stringify(allSelectedServiceIds));
+
+    // Navega para a próxima página
+    router.push('/barbeiros');
+  };
+  // ADICIONE ESTA FUNÇÃO PARA LIDAR COM O BOTÃO CONTINUA --->
+
   return (
     <div className="servicos-container">
       <Head>
@@ -41,7 +63,7 @@ export default function ServicosPage() {
         <meta name="description" content="Agende seus cortes de cabelo, barba e tratamentos na Agenda Corte." />
       </Head>
 
-      
+      <Header />
 
       <main className="servicos-main-content">
         <section className="servicos-hero">
@@ -137,9 +159,15 @@ export default function ServicosPage() {
         </section>
 
         <section className="continue-button-section">
-          <Link href="/barbeiros" passHref> {/* Link para a próxima tela (barbeiros) */}
-            <button className="continue-button">Continua</button>
-          </Link>
+          {/* O BOTÃO AGORA CHAMA A FUNÇÃO handleContinue */}
+          <button
+            className="continue-button"
+            onClick={handleContinue} // <--- ALTERADO AQUI
+            // O botão deve estar desabilitado se nenhuma opção foi selecionada
+            disabled={selectedServices.flat().length === 0} // <--- ADICIONE ESTA CONDIÇÃO DE DISABLED
+          >
+            Continua
+          </button>
         </section>
       </main>
     </div>
