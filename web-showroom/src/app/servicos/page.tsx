@@ -7,8 +7,6 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react'; // <--- ADICIONE useEffect AQUI
 import { useRouter } from 'next/navigation'; // <--- ADICIONE useRouter AQUI
 
-// Importar o componente Header (assumindo que ele está em src/components/Header.tsx)
-import Header from '../../components/Header'; // <--- MANTENHA ESTA LINHA
 
 export default function ServicosPage() {
   const [selectedServices, setSelectedServices] = useState<number[][]>([[], [], []]);
@@ -63,7 +61,7 @@ export default function ServicosPage() {
         <meta name="description" content="Agende seus cortes de cabelo, barba e tratamentos na Agenda Corte." />
       </Head>
 
-      <Header />
+      
 
       <main className="servicos-main-content">
         <section className="servicos-hero">

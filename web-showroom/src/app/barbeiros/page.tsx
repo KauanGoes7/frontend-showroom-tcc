@@ -7,8 +7,6 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react'; // Importar useEffect
 import { useRouter } from 'next/navigation'; // Importar useRouter
 
-// Importar o componente Header (assumindo que ele está em src/components/Header.tsx)
-import Header from '../../components/Header';
 
 export default function BarbeirosPage() {
   const [selectedBarberId, setSelectedBarberId] = useState<number | null>(null);
@@ -17,9 +15,9 @@ export default function BarbeirosPage() {
 
   // Dados dos barbeiros (mantidos como você os tinha)
   const barbers = [
-    { id: 1, name: 'Lucas', image: '/barbeiros/barbeiro-lucas.png' },
-    { id: 2, name: 'Rodrigo', image: '/barbeiros/barbeiro-rodrigo.png' },
-    { id: 3, name: 'Marcelo', image: '/barbeiros/barbeiro-marcelo.png' },
+    { id: 1, name: 'Lucas', image: '/barbeiro/barbeiro 1.png' },
+    { id: 2, name: 'Rodrigo', image: '/barbeiro/barbeiro 1.png' },
+    { id: 3, name: 'Marcelo', image: '/barbeiro/barbeiro 1.png' },
   ];
 
   // Carrega o barbeiro e os serviços selecionados do localStorage ao montar
@@ -74,7 +72,7 @@ export default function BarbeirosPage() {
         <meta name="description" content="Selecione seu barbeiro preferido para o agendamento." />
       </Head>
 
-      <Header />
+      
 
       <main className="barbeiros-main-content">
         <section className="barbeiros-hero">

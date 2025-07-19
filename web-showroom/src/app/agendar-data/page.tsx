@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 // Importar o componente Header (assumindo que ele está em src/components/Header.tsx)
-import Header from '../../components/Header'; // Adicionado para incluir o cabeçalho
+
 
 export default function AgendamentoPage() {
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -80,7 +80,7 @@ export default function AgendamentoPage() {
 
   const handleConfirmAgendamento = () => {
     if (!selectedDate || !selectedTime || selectedBarberId === null || selectedServiceIds.length === 0) {
-      alert('Por favor, selecione a data, o horário, o barbeiro e o serviço para confirmar.');
+      alert('Por favor, selecione uma data, um horário, um barbeiro e um serviço.');
       return;
     }
 
@@ -110,11 +110,6 @@ export default function AgendamentoPage() {
     return date.toLocaleDateString('pt-BR', { weekday: 'short', day: '2-digit', month: 'short' });
   };
 
-  // Obter o nome do barbeiro e serviço para exibição no resumo
-  const currentSelectedBarberName = barbers.find(b => b.id === selectedBarberId)?.name || 'Nenhum barbeiro selecionado';
-  const currentSelectedServiceNames = selectedServiceIds.map(id => servicesMap[id] || 'Serviço Desconhecido').join(', ');
-
-
   return (
     <div className="agendamento-container">
       <Head>
@@ -122,7 +117,7 @@ export default function AgendamentoPage() {
         <meta name="description" content="Selecione a data e horário para seu agendamento." />
       </Head>
 
-      <Header /> {/* Inclui o cabeçalho */}
+      
 
       <main className="agendamento-main-content">
         <section className="agendamento-hero">
@@ -132,16 +127,7 @@ export default function AgendamentoPage() {
           </p>
         </section>
 
-        {/* Card de Resumo da Seleção Atual (Barbeiro e Serviço) */}
-        {(selectedBarberId !== null || selectedServiceIds.length > 0) && (
-            <div className="selection-card summary-card">
-                <h2 className="selection-card-title">Resumo da Seleção</h2>
-                <div style={{display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '1.5rem'}}>
-                    {selectedBarberId !== null && <p style={{color: 'var(--text-light)', fontSize: '1.1rem'}}>Barbeiro: <span style={{color: 'var(--accent-cyan)', fontWeight: 'bold'}}>{currentSelectedBarberName}</span></p>}
-                    {selectedServiceIds.length > 0 && <p style={{color: 'var(--text-light)', fontSize: '1.1rem'}}>Serviços: <span style={{color: 'var(--accent-cyan)', fontWeight: 'bold'}}>{currentSelectedServiceNames}</span></p>}
-                </div>
-            </div>
-        )}
+        {/* O CARD DE RESUMO DA SELEÇÃO FOI REMOVIDO AQUI */}
 
         <section className="agendamento-selections">
           <div className="selection-card">
