@@ -4,6 +4,46 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation'; // <-- ADICIONADO: Importação do useRouter
+
+// --- INÍCIO DA ADIÇÃO DO BOTÃO DE VOLTAR ---
+const BackButton = () => {
+  const router = useRouter();
+  return (
+    // Estilos inline aplicados ao div para posicionamento
+    <div style={{
+      position: 'absolute', // Posiciona o botão de forma absoluta em relação ao pai com position: relative
+      top: '20px',          // 20px de distância do topo
+      left: '20px',         // 20px de distância da esquerda
+      zIndex: 1000,         // Garante que o botão fique acima de outros elementos
+    }}>
+      <button
+        onClick={() => router.back()}
+        style={{
+          background: 'none', // Sem fundo
+          border: 'none',     // Sem borda
+          cursor: 'pointer',  // Cursor de mão ao passar o mouse
+          padding: '0',       // Sem preenchimento interno
+          display: 'flex',    // Para centralizar a imagem se necessário
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Image
+          src="/servicos/seta-para-a-esquerda 3.png" // Caminho da sua imagem (ajuste se for diferente para esta página)
+          alt="Voltar"
+          width={32} // Largura da imagem
+          height={32} // Altura da imagem
+          style={{
+            // Filtro para a cor azul rgb(0, 187, 212)
+            filter: 'invert(53%) sepia(91%) saturate(301%) hue-rotate(139deg) brightness(98%) contrast(101%)',
+          }}
+        />
+      </button>
+    </div>
+  );
+};
+// --- FIM DA ADIÇÃO DO BOTÃO DE VOLTAR ---
 
 
 export default function ApresentacaoPage() {
@@ -14,7 +54,9 @@ export default function ApresentacaoPage() {
         <meta name="description" content="Conheça a história, filosofia e diferenciais da Barbearia Agenda Corte." />
       </Head>
 
-      
+      {/* --- USO DO BOTÃO DE VOLTAR (ADICIONADO AQUI) --- */}
+      <BackButton />
+      {/* --- FIM DO USO DO BOTÃO DE VOLTAR --- */}
 
       <main className="apresentacao-main-content">
         <section className="hero-apresentacao">
@@ -84,11 +126,12 @@ export default function ApresentacaoPage() {
           </p>
         </section>
 
-        <section className="apresentacao-section back-button-section">
+        {/* Removendo esta seção, pois o BackButton já cumpre a função de voltar */}
+        {/* <section className="apresentacao-section back-button-section">
           <Link href="/" passHref>
             <button className="back-to-home-button">Voltar para Home</button>
           </Link>
-        </section>
+        </section> */}
       </main>
     </div>
   );

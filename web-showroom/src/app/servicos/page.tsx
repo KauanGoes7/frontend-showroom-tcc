@@ -4,8 +4,48 @@
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react'; // <--- ADICIONE useEffect AQUI
-import { useRouter } from 'next/navigation'; // <--- ADICIONE useRouter AQUI
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+
+// --- INÍCIO DA ADIÇÃO DO BOTÃO DE VOLTAR ---
+const BackButton = () => {
+  const router = useRouter();
+  return (
+    // Estilos inline aplicados ao div para posicionamento
+    <div style={{
+      position: 'absolute', // Posiciona o botão de forma absoluta em relação ao pai com position: relative
+      top: '20px',          // 20px de distância do topo
+      left: '20px',         // 20px de distância da esquerda
+      zIndex: 1000,         // Garante que o botão fique acima de outros elementos
+    }}>
+      <button
+        onClick={() => router.back()}
+        style={{
+          background: 'none', // Sem fundo
+          border: 'none',     // Sem borda
+          cursor: 'pointer',  // Cursor de mão ao passar o mouse
+          padding: '0',       // Sem preenchimento interno
+          display: 'flex',    // Para centralizar a imagem se necessário
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Image
+          src="/servicos/seta-para-a-esquerda 3.png" // Caminho da sua imagem
+          alt="Voltar"
+          width={32} // Largura da imagem
+          height={32} // Altura da imagem
+          style={{
+            // Filtro para a cor azul rgb(0, 187, 212)
+            filter: 'invert(53%) sepia(91%) saturate(301%) hue-rotate(139deg) brightness(98%) contrast(101%)',
+          }}
+        />
+      </button>
+    </div>
+  );
+};
+// --- FIM DA ADIÇÃO DO BOTÃO DE VOLTAR ---
 
 
 export default function ServicosPage() {
@@ -61,7 +101,9 @@ export default function ServicosPage() {
         <meta name="description" content="Agende seus cortes de cabelo, barba e tratamentos na Agenda Corte." />
       </Head>
 
-      
+      {/* --- USO DO BOTÃO DE VOLTAR (ADICIONADO AQUI) --- */}
+      <BackButton />
+      {/* --- FIM DO USO DO BOTÃO DE VOLTAR --- */}
 
       <main className="servicos-main-content">
         <section className="servicos-hero">
@@ -160,9 +202,9 @@ export default function ServicosPage() {
           {/* O BOTÃO AGORA CHAMA A FUNÇÃO handleContinue */}
           <button
             className="continue-button"
-            onClick={handleContinue} // <--- ALTERADO AQUI
+            onClick={handleContinue}
             // O botão deve estar desabilitado se nenhuma opção foi selecionada
-            disabled={selectedServices.flat().length === 0} // <--- ADICIONE ESTA CONDIÇÃO DE DISABLED
+            disabled={selectedServices.flat().length === 0}
           >
             Continua
           </button>

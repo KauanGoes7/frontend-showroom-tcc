@@ -5,9 +5,46 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image'; // <-- ADICIONADO: Importar Image para o BackButton
 
-// Importar o componente Header (assumindo que ele está em src/components/Header.tsx)
-
+// --- INÍCIO DA ADIÇÃO DO BOTÃO DE VOLTAR ---
+const BackButton = () => {
+  const router = useRouter();
+  return (
+    // Estilos inline aplicados ao div para posicionamento
+    <div style={{
+      position: 'absolute', // Posiciona o botão de forma absoluta em relação ao pai com position: relative
+      top: '20px',          // 20px de distância do topo
+      left: '20px',         // 20px de distância da esquerda
+      zIndex: 1000,         // Garante que o botão fique acima de outros elementos
+    }}>
+      <button
+        onClick={() => router.back()}
+        style={{
+          background: 'none', // Sem fundo
+          border: 'none',     // Sem borda
+          cursor: 'pointer',  // Cursor de mão ao passar o mouse
+          padding: '0',       // Sem preenchimento interno
+          display: 'flex',    // Para centralizar a imagem se necessário
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Image
+          src="/servicos/seta-para-a-esquerda 3.png" // Caminho da sua imagem
+          alt="Voltar"
+          width={32} // Largura da imagem
+          height={32} // Altura da imagem
+          style={{
+            // Filtro para a cor azul rgb(0, 187, 212)
+            filter: 'invert(53%) sepia(91%) saturate(301%) hue-rotate(139deg) brightness(98%) contrast(101%)',
+          }}
+        />
+      </button>
+    </div>
+  );
+};
+// --- FIM DA ADIÇÃO DO BOTÃO DE VOLTAR ---
 
 interface AgendamentoData {
   date: string;
@@ -76,6 +113,10 @@ export default function ConfirmacaoAgendamentoPage() {
           <title>Agenda Corte - Agendamento</title>
         </Head>
         
+        {/* --- USO DO BOTÃO DE VOLTAR (ADICIONADO AQUI TAMBÉM NO ESTADO DE CARREGAMENTO) --- */}
+        <BackButton />
+        {/* --- FIM DO USO DO BOTÃO DE VOLTAR --- */}
+
         <main className="agendamento-main-content" style={{ textAlign: 'center', padding: '2rem' }}>
           <p style={{ color: 'var(--text-light)', fontSize: '1.2rem' }}>Carregando detalhes do agendamento ou dados não encontrados. Por favor, inicie um novo agendamento.</p>
           <button className="continue-button" onClick={() => router.push('/servicos')} style={{ marginTop: '2rem' }}>
@@ -93,7 +134,9 @@ export default function ConfirmacaoAgendamentoPage() {
         <meta name="description" content="Seu agendamento foi concluído com sucesso!" />
       </Head>
 
-      
+      {/* --- USO DO BOTÃO DE VOLTAR (ADICIONADO AQUI) --- */}
+      <BackButton />
+      {/* --- FIM DO USO DO BOTÃO DE VOLTAR --- */}
 
       <main className="agendamento-main-content">
         <section className="confirmacao-hero">
@@ -148,6 +191,7 @@ export default function ConfirmacaoAgendamentoPage() {
       </main>
 
       {/* Styled JSX para CSS local */}
+      {/* ESTE BLOCO <style jsx> NÃO SERÁ ALTERADO */}
       <style jsx>{`
         .agendamento-container {
           display: flex;
